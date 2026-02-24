@@ -1,5 +1,8 @@
 package nl.les12vinylshopdto.les12vinylshopdto.controllers;
 
+import jakarta.validation.Valid;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.GenreRequestDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.GenreResponseDto;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.GenreEntity;
 import nl.les12vinylshopdto.les12vinylshopdto.services.GenreService;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +23,8 @@ public class GenreController {
 
     // GET one
     @GetMapping("/{id}")
-    public ResponseEntity<GenreEntity> getGenreById(@PathVariable Long id) {
-        GenreEntity genre = genreService.findGenreById(id);
+    public ResponseEntity<GenreResponseDto> getGenreById(@PathVariable Long id) {
+        GenreResponseDto genre = genreService.findGenreById(id);
         if (genre == null) {
             return ResponseEntity.notFound().build();
         }
@@ -30,14 +33,16 @@ public class GenreController {
 
     // GET all
     @GetMapping
-    public ResponseEntity<List<GenreEntity>> getAllGenres() {
+    public ResponseEntity<List<GenreResponseDto>> getAllGenres() {
         return ResponseEntity.ok(genreService.findAllGenres());
     }
 
-    // POST
+    //  POST
     @PostMapping
-    public ResponseEntity<GenreEntity> createGenre(@RequestBody GenreEntity genre) {
-        GenreEntity created = genreService.createGenre(genre);
+    public ResponseEntity<GenreResponseDto> createGenre(
+            @Valid @RequestBody GenreRequestDto genre) {
+
+        GenreResponseDto created = genreService.createGenre(genre);
 
         URI location = URI.create("/genres/" + created.getId());
 
@@ -48,8 +53,11 @@ public class GenreController {
 
     // PUT
     @PutMapping("/{id}")
-    public ResponseEntity<GenreEntity> updateGenre(@PathVariable Long id, @RequestBody GenreEntity genre) {
-        GenreEntity updated = genreService.updateGenre(id, genre);
+    public ResponseEntity<GenreResponseDto> updateGenre(
+            @PathVariable Long id,
+            @Valid @RequestBody GenreRequestDto genre) {
+
+        GenreResponseDto updated = genreService.updateGenre(id, genre);
         return ResponseEntity.ok(updated);
     }
 
