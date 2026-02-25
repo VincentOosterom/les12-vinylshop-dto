@@ -15,17 +15,17 @@ public class GenreDTOMapper implements DTOMapper<
         GenreEntity> {
 
     @Override
-    public GenreResponseDto mapToDto(GenreEntity model) {
+    public GenreResponseDto mapToDto(GenreEntity entity) {
         return new GenreResponseDto(
-                model.getId(),
-                model.getName(),
-                model.getDescription()
+                entity.getId(),
+                entity.getName(),
+                entity.getDescription()
         );
     }
 
     @Override
-    public List<GenreResponseDto> mapToDto(List<GenreEntity> models) {
-        return models.stream()
+    public List<GenreResponseDto> mapToDto(List<GenreEntity> entities) {
+        return entities.stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
     }
