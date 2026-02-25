@@ -3,7 +3,6 @@ package nl.les12vinylshopdto.les12vinylshopdto.controllers;
 import jakarta.validation.Valid;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.GenreRequestDto;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.GenreResponseDto;
-import nl.les12vinylshopdto.les12vinylshopdto.entities.GenreEntity;
 import nl.les12vinylshopdto.les12vinylshopdto.services.GenreService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

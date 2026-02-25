@@ -15,6 +15,8 @@ public class PublisherEntity extends BaseEntity {
 
     private String contactDetails;
 
+
+    //    GETTERS & SETTERS
     public String getName() {
         return name;
     }

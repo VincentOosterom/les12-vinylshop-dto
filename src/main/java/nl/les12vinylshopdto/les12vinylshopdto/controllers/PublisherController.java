@@ -40,7 +40,6 @@ public class PublisherController {
         PublisherResponseDto created = publisherService.createPublisher(publisher);
 
         URI location = URI.create("/publishers/" + created.getId());
-
         return ResponseEntity
                 .created(location)
                 .body(created);

@@ -2,7 +2,9 @@ package nl.les12vinylshopdto.les12vinylshopdto.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
