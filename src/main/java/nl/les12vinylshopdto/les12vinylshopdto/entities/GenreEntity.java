@@ -12,6 +12,8 @@ public class GenreEntity extends BaseEntity {
     private String name;
     private String description;
 
+
+    //    GETTERS & SETTERS
     public String getName() {
         return name;
     }

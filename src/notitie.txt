@@ -1,0 +1,4 @@
+De notitie die bij sommige classes staan, zijn meer voor mij. Dat ik onthoud wat het is en wat het doet.
+
+
+@Column(nullable = false) = zorgt er voor dat nul NOOIT kan

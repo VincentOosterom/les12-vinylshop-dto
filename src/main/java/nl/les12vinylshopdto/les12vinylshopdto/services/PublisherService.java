@@ -1,56 +1,71 @@
 package nl.les12vinylshopdto.les12vinylshopdto.services;
 
+import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherRequestDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherResponseDto;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.PublisherEntity;
+import nl.les12vinylshopdto.les12vinylshopdto.mapper.PublisherDTOMapper;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.PublisherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PublisherService {
 
     private final PublisherRepository publisherRepository;
+    private final PublisherDTOMapper publisherDTOMapper;
 
-    public PublisherService(PublisherRepository publisherRepository) {
+    public PublisherService(PublisherRepository publisherRepository,
+                            PublisherDTOMapper publisherDTOMapper) {
         this.publisherRepository = publisherRepository;
+        this.publisherDTOMapper = publisherDTOMapper;
     }
 
-    public List<PublisherEntity> findAllPublishers() {
-        return publisherRepository.findAll();
+    // ✅ FIND ALL
+    public List<PublisherResponseDto> findAllPublishers() {
+        return publisherDTOMapper.mapToDto(publisherRepository.findAll());
     }
 
-    public PublisherEntity findPublisherById(Long id) {
-        return getPublisherById(id);
+
+    // ✅ FIND BY ID
+    public PublisherResponseDto findPublisherById(Long id) {
+        PublisherEntity publisher = publisherRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Publisher not found"));
+
+        return publisherDTOMapper.mapToDto(publisher);
     }
 
-    public PublisherEntity createPublisher(PublisherEntity input) {
-        return publisherRepository.save(input);
+    // ✅ CREATE
+    public PublisherResponseDto createPublisher(PublisherRequestDto input) {
+
+        PublisherEntity publisher = publisherDTOMapper.mapToEntity(input);
+
+        publisher = publisherRepository.save(publisher);
+
+        return publisherDTOMapper.mapToDto(publisher);
     }
 
-    public PublisherEntity updatePublisher(Long id, PublisherEntity input) {
-        PublisherEntity existingPublisher = getPublisherById(id);
+    // ✅ UPDATE
+    public PublisherResponseDto updatePublisher(Long id, PublisherRequestDto input) {
 
-        if (existingPublisher == null) {
-            return null;
-        }
+        PublisherEntity existingPublisher = publisherRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Publisher not found"));
 
-        existingPublisher.setName(input.getName());
-        existingPublisher.setDescription(input.getDescription());
+        existingPublisher.setName(input.name());
+        existingPublisher.setAddress(input.address());
+        existingPublisher.setContactDetails(input.contactDetails());
 
-        return publisherRepository.save(existingPublisher);
+        PublisherEntity saved = publisherRepository.save(existingPublisher);
+
+        return publisherDTOMapper.mapToDto(saved);
     }
 
+    // ✅ DELETE
     public void deletePublisher(Long id) {
-        PublisherEntity existingPublisher = getPublisherById(id);
 
-        if (existingPublisher != null) {
-            publisherRepository.delete(existingPublisher);
-        }
-    }
+        PublisherEntity existingPublisher = publisherRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Publisher not found"));
 
-    private PublisherEntity getPublisherById(Long id) {
-        Optional<PublisherEntity> optionalPublisher = publisherRepository.findById(id);
-        return optionalPublisher.orElse(null);
+        publisherRepository.delete(existingPublisher);
     }
 }

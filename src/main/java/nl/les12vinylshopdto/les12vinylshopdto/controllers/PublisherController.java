@@ -1,6 +1,8 @@
 package nl.les12vinylshopdto.les12vinylshopdto.controllers;
 
-import nl.les12vinylshopdto.les12vinylshopdto.entities.PublisherEntity;
+import jakarta.validation.Valid;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherRequestDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherResponseDto;
 import nl.les12vinylshopdto.les12vinylshopdto.services.PublisherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,44 +20,47 @@ public class PublisherController {
         this.publisherService = publisherService;
     }
 
-
+    // ✅ GET ONE
     @GetMapping("/{id}")
-    public ResponseEntity<PublisherEntity> getPublisherById(@PathVariable Long id) {
-        PublisherEntity publisher = publisherService.findPublisherById(id);
-
-        if (publisher == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(publisher);
+    public ResponseEntity<PublisherResponseDto> getPublisherById(@PathVariable Long id) {
+        return ResponseEntity.ok(publisherService.findPublisherById(id));
     }
 
+    // ✅ GET ALL
     @GetMapping
-    public ResponseEntity<List<PublisherEntity>> getAllPublishers() {
+    public ResponseEntity<List<PublisherResponseDto>> getAllPublishers() {
         return ResponseEntity.ok(publisherService.findAllPublishers());
     }
 
+    // ✅ POST
     @PostMapping
-    public ResponseEntity<PublisherEntity> createPublisher(@RequestBody PublisherEntity publisher) {
-        PublisherEntity newPublisher = publisherService.createPublisher(publisher);
+    public ResponseEntity<PublisherResponseDto> createPublisher(
+            @Valid @RequestBody PublisherRequestDto publisher) {
 
-        URI location = URI.create("/publishers/" + newPublisher.getId());
+        PublisherResponseDto created = publisherService.createPublisher(publisher);
 
-        return ResponseEntity.created(location).body(newPublisher);
+        URI location = URI.create("/publishers/" + created.getId());
+        return ResponseEntity
+                .created(location)
+                .body(created);
     }
 
+    // ✅ PUT
     @PutMapping("/{id}")
-    public ResponseEntity<PublisherEntity> updatePublisher(@PathVariable Long id, @RequestBody PublisherEntity publisher) {
-        PublisherEntity updatedPublisher = publisherService.updatePublisher(id, publisher);
-        if (updatedPublisher == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(updatedPublisher);
+    public ResponseEntity<PublisherResponseDto> updatePublisher(
+            @PathVariable Long id,
+            @Valid @RequestBody PublisherRequestDto publisher) {
+
+        PublisherResponseDto updated =
+                publisherService.updatePublisher(id, publisher);
+
+        return ResponseEntity.ok(updated);
     }
 
+    // ✅ DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePublisher(@PathVariable Long id) {
         publisherService.deletePublisher(id);
         return ResponseEntity.noContent().build();
     }
-
 }

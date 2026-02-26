@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+// Base entity | Andere Klassen extends hiervan.
 @MappedSuperclass
 public class BaseEntity {
 
@@ -15,6 +16,8 @@ public class BaseEntity {
     private LocalDateTime createDate;
     private LocalDateTime editDate;
 
+
+    //    GETTERS & SETTERS
     public LocalDateTime getEditDate() {
         return editDate;
     }
@@ -34,6 +37,7 @@ public class BaseEntity {
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
+
 
     @PrePersist
     protected void onCreate() {
