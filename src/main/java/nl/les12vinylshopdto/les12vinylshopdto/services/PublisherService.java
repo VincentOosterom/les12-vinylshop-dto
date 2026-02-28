@@ -3,6 +3,7 @@ package nl.les12vinylshopdto.les12vinylshopdto.services;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherRequestDto;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherResponseDto;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.PublisherEntity;
+import nl.les12vinylshopdto.les12vinylshopdto.exceptions.ResourceNotFoundException;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.PublisherDTOMapper;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.PublisherRepository;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class PublisherService {
     // ✅ FIND BY ID
     public PublisherResponseDto findPublisherById(Long id) {
         PublisherEntity publisher = publisherRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Publisher not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Publisher not found"));
 
         return publisherDTOMapper.mapToDto(publisher);
     }
@@ -49,7 +50,7 @@ public class PublisherService {
     public PublisherResponseDto updatePublisher(Long id, PublisherRequestDto input) {
 
         PublisherEntity existingPublisher = publisherRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Publisher not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Publisher not found"));
 
         existingPublisher.setName(input.name());
         existingPublisher.setAddress(input.address());
@@ -64,7 +65,7 @@ public class PublisherService {
     public void deletePublisher(Long id) {
 
         PublisherEntity existingPublisher = publisherRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Publisher not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Publisher not found"));
 
         publisherRepository.delete(existingPublisher);
     }
