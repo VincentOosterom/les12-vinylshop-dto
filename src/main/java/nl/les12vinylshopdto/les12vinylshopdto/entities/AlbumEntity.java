@@ -26,6 +26,6 @@ public class AlbumEntity extends BaseEntity {
     }
 
     public void setTitle(String title) {
-        title = title;
+        this.title = title;
     }
 }
