@@ -1,11 +1,14 @@
 package nl.les12vinylshopdto.les12vinylshopdto.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "albums")
 public class AlbumEntity extends BaseEntity {
+
+    @Column(nullable = false)
     private String title;
     private int releaseYear;
 

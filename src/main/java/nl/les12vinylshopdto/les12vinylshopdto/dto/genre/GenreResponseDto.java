@@ -1,6 +1,4 @@
-package nl.les12vinylshopdto.les12vinylshopdto.dto;
-
-import jakarta.validation.constraints.*;
+package nl.les12vinylshopdto.les12vinylshopdto.dto.genre;
 
 public class GenreResponseDto {
 

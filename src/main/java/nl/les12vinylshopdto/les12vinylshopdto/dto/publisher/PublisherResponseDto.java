@@ -1,4 +1,4 @@
-package nl.les12vinylshopdto.les12vinylshopdto.dto;
+package nl.les12vinylshopdto.les12vinylshopdto.dto.publisher;
 
 public class PublisherResponseDto {
 

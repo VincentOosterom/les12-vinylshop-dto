@@ -1,7 +1,7 @@
 package nl.les12vinylshopdto.les12vinylshopdto.mapper;
 
-import nl.les12vinylshopdto.les12vinylshopdto.dto.GenreRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.GenreResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreResponseDto;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.GenreEntity;
 import org.springframework.stereotype.Component;
 

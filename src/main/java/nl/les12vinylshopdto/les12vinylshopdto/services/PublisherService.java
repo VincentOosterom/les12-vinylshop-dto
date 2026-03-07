@@ -1,7 +1,7 @@
 package nl.les12vinylshopdto.les12vinylshopdto.services;
 
-import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherRequestDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherResponseDto;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.PublisherEntity;
 import nl.les12vinylshopdto.les12vinylshopdto.exceptions.ResourceNotFoundException;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.PublisherDTOMapper;
