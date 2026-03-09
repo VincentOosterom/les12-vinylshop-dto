@@ -1,12 +1,12 @@
 package nl.les12vinylshopdto.les12vinylshopdto.dto.genre;
 
-public class GenreResponseDto {
+public class GenreResponseDTO {
 
     private long id;
     private String name;
     private String description;
 
-    public GenreResponseDto(long id, String name, String description) {
+    public GenreResponseDTO(long id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;

@@ -1,7 +1,7 @@
 package nl.les12vinylshopdto.les12vinylshopdto.mapper;
 
-import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.GenreEntity;
 import org.springframework.stereotype.Component;
 
@@ -10,13 +10,13 @@ import java.util.stream.Collectors;
 
 @Component
 public class GenreDTOMapper implements DTOMapper<
-        GenreResponseDto,
-        GenreRequestDto,
+        GenreResponseDTO,
+        GenreRequestDTO,
         GenreEntity> {
 
     @Override
-    public GenreResponseDto mapToDto(GenreEntity entity) {
-        return new GenreResponseDto(
+    public GenreResponseDTO mapToDto(GenreEntity entity) {
+        return new GenreResponseDTO(
                 entity.getId(),
                 entity.getName(),
                 entity.getDescription()
@@ -24,14 +24,14 @@ public class GenreDTOMapper implements DTOMapper<
     }
 
     @Override
-    public List<GenreResponseDto> mapToDto(List<GenreEntity> entities) {
+    public List<GenreResponseDTO> mapToDto(List<GenreEntity> entities) {
         return entities.stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public GenreEntity mapToEntity(GenreRequestDto dto) {
+    public GenreEntity mapToEntity(GenreRequestDTO dto) {
         GenreEntity genre = new GenreEntity();
         genre.setName(dto.name());
         genre.setDescription(dto.description());

@@ -1,9 +1,8 @@
 package nl.les12vinylshopdto.les12vinylshopdto.services;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.AlbumEntity;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.AlbumDTOMapper;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.AlbumRepository;
@@ -24,20 +23,20 @@ public class AlbumService {
 
 
     // ✅ Find All
-    public List<AlbumResponseDto> findAllAlbums() {
+    public List<AlbumResponseDTO> findAllAlbums() {
         return albumDTOMapper.mapToDto(albumRepository.findAll());
     }
 
     // ✅ FIND BY ID
 
-    public AlbumResponseDto findAlbumById(Long id) {
+    public AlbumResponseDTO findAlbumById(Long id) {
         AlbumEntity album = albumRepository.findById(id).orElseThrow(() -> new RuntimeException("Album not found"));
 
         return albumDTOMapper.mapToDto(album);
     }
 
     // ✅ CREATE
-    public AlbumResponseDto createAlbum(@Valid AlbumRequestDto input) {
+    public AlbumResponseDTO createAlbum(@Valid AlbumRequestDTO input) {
         AlbumEntity albumEntity = albumDTOMapper.mapToEntity(input);
 
         albumEntity = albumRepository.save(albumEntity);
@@ -47,7 +46,7 @@ public class AlbumService {
 
     // ✅ UPDATE
 
-    public AlbumResponseDto updateAlbum(Long id, @Valid AlbumRequestDto input) {
+    public AlbumResponseDTO updateAlbum(Long id, @Valid AlbumRequestDTO input) {
         AlbumEntity existingAlbum = albumRepository.findById(id).orElseThrow(() -> new RuntimeException("Album not found"));
 
         existingAlbum.setTitle(input.title());

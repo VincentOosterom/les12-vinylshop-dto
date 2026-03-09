@@ -1,7 +1,7 @@
 package nl.les12vinylshopdto.les12vinylshopdto.services;
 
-import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherRequestDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.PublisherEntity;
 import nl.les12vinylshopdto.les12vinylshopdto.exceptions.ResourceNotFoundException;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.PublisherDTOMapper;
@@ -23,13 +23,13 @@ public class PublisherService {
     }
 
     // ✅ FIND ALL
-    public List<PublisherResponseDto> findAllPublishers() {
+    public List<PublisherResponseDTO> findAllPublishers() {
         return publisherDTOMapper.mapToDto(publisherRepository.findAll());
     }
 
 
     // ✅ FIND BY ID
-    public PublisherResponseDto findPublisherById(Long id) {
+    public PublisherResponseDTO findPublisherById(Long id) {
         PublisherEntity publisher = publisherRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Publisher not found"));
 
@@ -37,7 +37,7 @@ public class PublisherService {
     }
 
     // ✅ CREATE
-    public PublisherResponseDto createPublisher(PublisherRequestDto input) {
+    public PublisherResponseDTO createPublisher(PublisherRequestDTO input) {
 
         PublisherEntity publisher = publisherDTOMapper.mapToEntity(input);
 
@@ -47,7 +47,7 @@ public class PublisherService {
     }
 
     // ✅ UPDATE
-    public PublisherResponseDto updatePublisher(Long id, PublisherRequestDto input) {
+    public PublisherResponseDTO updatePublisher(Long id, PublisherRequestDTO input) {
 
         PublisherEntity existingPublisher = publisherRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Publisher not found"));

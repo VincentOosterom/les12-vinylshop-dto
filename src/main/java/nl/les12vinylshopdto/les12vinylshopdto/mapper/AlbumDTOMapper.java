@@ -1,7 +1,7 @@
 package nl.les12vinylshopdto.les12vinylshopdto.mapper;
 
-import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.AlbumEntity;
 import org.springframework.stereotype.Component;
 
@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 
 @Component
 public class AlbumDTOMapper implements DTOMapper<
-        AlbumResponseDto,
-        AlbumRequestDto,
+        AlbumResponseDTO,
+        AlbumRequestDTO,
         AlbumEntity> {
 
 
     @Override
-    public AlbumResponseDto mapToDto(AlbumEntity entity) {
-        return new AlbumResponseDto(
+    public AlbumResponseDTO mapToDto(AlbumEntity entity) {
+        return new AlbumResponseDTO(
                 entity.getId(),
                 entity.getTitle(),
                 entity.getReleaseYear()
@@ -25,14 +25,14 @@ public class AlbumDTOMapper implements DTOMapper<
     }
 
     @Override
-    public List<AlbumResponseDto> mapToDto(List<AlbumEntity> entities) {
+    public List<AlbumResponseDTO> mapToDto(List<AlbumEntity> entities) {
         return entities.stream()
                 .map(this::mapToDto)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public AlbumEntity mapToEntity(AlbumRequestDto dto) {
+    public AlbumEntity mapToEntity(AlbumRequestDTO dto) {
         AlbumEntity albumEntity = new AlbumEntity();
         albumEntity.setTitle(dto.title());
         albumEntity.setReleaseYear(dto.releaseYear());

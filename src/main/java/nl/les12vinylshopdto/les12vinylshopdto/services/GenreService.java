@@ -1,8 +1,8 @@
 package nl.les12vinylshopdto.les12vinylshopdto.services;
 
 import jakarta.validation.Valid;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.GenreEntity;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.GenreDTOMapper;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.GenreRepository;
@@ -23,12 +23,12 @@ public class GenreService {
     }
 
     // ✅ FIND ALL
-    public List<GenreResponseDto> findAllGenres() {
+    public List<GenreResponseDTO> findAllGenres() {
         return genreDTOMapper.mapToDto(genreRepository.findAll());
     }
 
     // ✅ FIND BY ID
-    public GenreResponseDto findGenreById(Long id) {
+    public GenreResponseDTO findGenreById(Long id) {
         GenreEntity genre = genreRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Genre not found"));
 
@@ -36,7 +36,7 @@ public class GenreService {
     }
 
     // ✅ CREATE
-    public GenreResponseDto createGenre(@Valid GenreRequestDto input) {
+    public GenreResponseDTO createGenre(@Valid GenreRequestDTO input) {
 
         GenreEntity genreEntity = genreDTOMapper.mapToEntity(input);
 
@@ -46,7 +46,7 @@ public class GenreService {
     }
 
     // ✅ UPDATE
-    public GenreResponseDto updateGenre(Long id, @Valid GenreRequestDto input) {
+    public GenreResponseDTO updateGenre(Long id, @Valid GenreRequestDTO input) {
 
         GenreEntity existingGenre = genreRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Genre not found"));

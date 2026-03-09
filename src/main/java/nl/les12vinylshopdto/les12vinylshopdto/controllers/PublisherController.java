@@ -1,8 +1,8 @@
 package nl.les12vinylshopdto.les12vinylshopdto.controllers;
 
 import jakarta.validation.Valid;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherRequestDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.services.PublisherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,22 +22,22 @@ public class PublisherController {
 
     // ✅ GET ONE
     @GetMapping("/{id}")
-    public ResponseEntity<PublisherResponseDto> getPublisherById(@PathVariable Long id) {
+    public ResponseEntity<PublisherResponseDTO> getPublisherById(@PathVariable Long id) {
         return ResponseEntity.ok(publisherService.findPublisherById(id));
     }
 
     // ✅ GET ALL
     @GetMapping
-    public ResponseEntity<List<PublisherResponseDto>> getAllPublishers() {
+    public ResponseEntity<List<PublisherResponseDTO>> getAllPublishers() {
         return ResponseEntity.ok(publisherService.findAllPublishers());
     }
 
     // ✅ POST
     @PostMapping
-    public ResponseEntity<PublisherResponseDto> createPublisher(
-            @Valid @RequestBody PublisherRequestDto publisher) {
+    public ResponseEntity<PublisherResponseDTO> createPublisher(
+            @Valid @RequestBody PublisherRequestDTO publisher) {
 
-        PublisherResponseDto created = publisherService.createPublisher(publisher);
+        PublisherResponseDTO created = publisherService.createPublisher(publisher);
 
         URI location = URI.create("/publishers/" + created.getId());
         return ResponseEntity
@@ -47,11 +47,11 @@ public class PublisherController {
 
     // ✅ PUT
     @PutMapping("/{id}")
-    public ResponseEntity<PublisherResponseDto> updatePublisher(
+    public ResponseEntity<PublisherResponseDTO> updatePublisher(
             @PathVariable Long id,
-            @Valid @RequestBody PublisherRequestDto publisher) {
+            @Valid @RequestBody PublisherRequestDTO publisher) {
 
-        PublisherResponseDto updated =
+        PublisherResponseDTO updated =
                 publisherService.updatePublisher(id, publisher);
 
         return ResponseEntity.ok(updated);

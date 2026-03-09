@@ -2,13 +2,13 @@ package nl.les12vinylshopdto.les12vinylshopdto.dto.album;
 
 import java.time.LocalDate;
 
-public class AlbumResponseDto {
+public class AlbumResponseDTO {
 
-    private long id;
-    private String title;
-    private int releaseYear;
+    private final long id;
+    private final String title;
+    private final int releaseYear;
 
-    public AlbumResponseDto(long id, String title, int releaseYear) {
+    public AlbumResponseDTO(long id, String title, int releaseYear) {
         this.id = id;
         this.title = title;
         this.releaseYear = LocalDate.now().getYear();

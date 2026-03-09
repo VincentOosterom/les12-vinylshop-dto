@@ -12,22 +12,28 @@ public class BaseEntity {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "created_date", updatable = false)
     private LocalDateTime createDate;
+
+    @Column(name = "edit_date")
     private LocalDateTime editDate;
 
-
-    //    GETTERS & SETTERS
-    public LocalDateTime getEditDate() {
-        return editDate;
+    @PrePersist
+    protected void onCreate() {
+        this.createDate = LocalDateTime.now();
     }
 
-    public void setEditDate(LocalDateTime editDate) {
-        this.editDate = editDate;
+    @PreUpdate
+    protected void onUpdate() {
+        this.editDate = LocalDateTime.now();
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDateTime getCreateDate() {
@@ -38,14 +44,11 @@ public class BaseEntity {
         this.createDate = createDate;
     }
 
-
-    @PrePersist
-    protected void onCreate() {
-        this.createDate = LocalDateTime.now();
+    public LocalDateTime getEditDate() {
+        return editDate;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.editDate = LocalDateTime.now();
+    public void setEditDate(LocalDateTime editDate) {
+        this.editDate = editDate;
     }
 }

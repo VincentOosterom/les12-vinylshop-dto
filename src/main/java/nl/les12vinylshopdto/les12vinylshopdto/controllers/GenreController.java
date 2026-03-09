@@ -1,8 +1,8 @@
 package nl.les12vinylshopdto.les12vinylshopdto.controllers;
 
 import jakarta.validation.Valid;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.services.GenreService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +22,8 @@ public class GenreController {
 
     // GET one
     @GetMapping("/{id}")
-    public ResponseEntity<GenreResponseDto> getGenreById(@PathVariable Long id) {
-        GenreResponseDto genre = genreService.findGenreById(id);
+    public ResponseEntity<GenreResponseDTO> getGenreById(@PathVariable Long id) {
+        GenreResponseDTO genre = genreService.findGenreById(id);
         if (genre == null) {
             return ResponseEntity.notFound().build();
         }
@@ -32,16 +32,16 @@ public class GenreController {
 
     // GET all
     @GetMapping
-    public ResponseEntity<List<GenreResponseDto>> getAllGenres() {
+    public ResponseEntity<List<GenreResponseDTO>> getAllGenres() {
         return ResponseEntity.ok(genreService.findAllGenres());
     }
 
     //  POST
     @PostMapping
-    public ResponseEntity<GenreResponseDto> createGenre(
-            @Valid @RequestBody GenreRequestDto genre) {
+    public ResponseEntity<GenreResponseDTO> createGenre(
+            @Valid @RequestBody GenreRequestDTO genre) {
 
-        GenreResponseDto created = genreService.createGenre(genre);
+        GenreResponseDTO created = genreService.createGenre(genre);
 
         URI location = URI.create("/genres/" + created.getId());
 
@@ -52,11 +52,11 @@ public class GenreController {
 
     // PUT
     @PutMapping("/{id}")
-    public ResponseEntity<GenreResponseDto> updateGenre(
+    public ResponseEntity<GenreResponseDTO> updateGenre(
             @PathVariable Long id,
-            @Valid @RequestBody GenreRequestDto genre) {
+            @Valid @RequestBody GenreRequestDTO genre) {
 
-        GenreResponseDto updated = genreService.updateGenre(id, genre);
+        GenreResponseDTO updated = genreService.updateGenre(id, genre);
         return ResponseEntity.ok(updated);
     }
 

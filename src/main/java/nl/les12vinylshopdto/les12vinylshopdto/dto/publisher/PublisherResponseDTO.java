@@ -1,13 +1,13 @@
 package nl.les12vinylshopdto.les12vinylshopdto.dto.publisher;
 
-public class PublisherResponseDto {
+public class PublisherResponseDTO {
 
     private final Long id;
     private final String name;
     private final String address;
     private final String contactDetails;
 
-    public PublisherResponseDto(Long id, String name, String address, String contactDetails) {
+    public PublisherResponseDTO(Long id, String name, String address, String contactDetails) {
         this.id = id;
         this.name = name;
         this.address = address;
