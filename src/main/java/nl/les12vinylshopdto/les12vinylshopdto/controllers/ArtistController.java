@@ -19,8 +19,7 @@ public class ArtistController {
     private final ArtistService artistService;
     private final UrlHelper urlHelper;
 
-
-    public ArtistController(ArtistService artistService, UrlHelper urlHelper) {
+    public ArtistController(ArtistService artistService, UrlHelper urlHelper ) {
         this.artistService = artistService;
         this.urlHelper = urlHelper;
     }
@@ -39,14 +38,14 @@ public class ArtistController {
     }
 
     @PostMapping
-    public ResponseEntity<ArtistResponseDTO> createArtist(@RequestBody @Valid ArtistRequestDTO artistRequestDto) {
-        ArtistResponseDTO artistDTO = artistService.createArtist(artistRequestDto);
+    public ResponseEntity<ArtistResponseDTO> createArtist(@RequestBody @Valid ArtistRequestDTO artistRequestDTO) {
+        ArtistResponseDTO artistDTO = artistService.createArtist(artistRequestDTO);
         return ResponseEntity.created(urlHelper.getCurrentUrlWithId(artistDTO.getId())).body(artistDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ArtistResponseDTO> updateArtist(@PathVariable Long id, @RequestBody @Valid ArtistRequestDTO artistRequestDto) {
-        ArtistResponseDTO artistDto = artistService.updateArtist(id, artistRequestDto);
+    public ResponseEntity<ArtistResponseDTO> updateArtist(@PathVariable Long id, @RequestBody @Valid ArtistRequestDTO artistRequestDTO) {
+        ArtistResponseDTO artistDto = artistService.updateArtist(id, artistRequestDTO);
         return new ResponseEntity<>(artistDto, HttpStatus.OK);
     }
 
@@ -55,6 +54,4 @@ public class ArtistController {
         artistService.deleteArtist(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 }

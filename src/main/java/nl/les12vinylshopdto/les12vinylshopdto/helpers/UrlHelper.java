@@ -23,7 +23,7 @@ public class UrlHelper {
         return request.getRequestURL().toString() + "/" + id.toString();
     }
 
-    public  URI getCurrentUrl() {
+    public  URI getCurrentUrl(Long id) {
         return convertToURI(getCurrentUrlString());
     }
 

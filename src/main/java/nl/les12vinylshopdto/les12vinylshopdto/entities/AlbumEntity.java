@@ -9,17 +9,15 @@ import java.util.Set;
 @Entity
 @Table(name = "albums")
 public class AlbumEntity extends BaseEntity {
-
-    @Column(nullable = false)
     private String title;
     private int releaseYear;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "publisher_id")
     private PublisherEntity publisher;
 
     @OneToMany(mappedBy = "album")
     private List<StockEntity> stockItems;
+
 
     @ManyToMany()
     @JoinTable(
@@ -29,7 +27,7 @@ public class AlbumEntity extends BaseEntity {
     )
     private Set<ArtistEntity> artists = new HashSet<>();
 
-    @ManyToOne( cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "genre_id")
     private GenreEntity genre;
 
@@ -47,6 +45,7 @@ public class AlbumEntity extends BaseEntity {
     public AlbumEntity(Long albumId) {
         setId(albumId);
     }
+
 
     public int getReleaseYear() {
         return releaseYear;

@@ -2,20 +2,40 @@ package nl.les12vinylshopdto.les12vinylshopdto.dto.publisher;
 
 public class PublisherResponseDTO {
 
-    private final Long id;
-    private final String name;
-    private final String address;
-    private final String contactDetails;
+    private long id;
+    private String name;
+    private String address;
+    private String contactDetails;
 
-    public PublisherResponseDTO(Long id, String name, String address, String contactDetails) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.contactDetails = contactDetails;
+    public long getId() {
+        return id;
     }
 
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public String getAddress() { return address; }
-    public String getContactDetails() { return contactDetails; }
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContactDetails() {
+        return contactDetails;
+    }
+
+    public void setContactDetails(String contactDetails) {
+        this.contactDetails = contactDetails;
+    }
 }

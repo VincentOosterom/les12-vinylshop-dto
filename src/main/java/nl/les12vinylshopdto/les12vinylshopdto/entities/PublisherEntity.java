@@ -2,22 +2,19 @@ package nl.les12vinylshopdto.les12vinylshopdto.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "publishers")
 public class PublisherEntity extends BaseEntity {
-
     @Column(nullable = false)
     private String name;
     private String address;
     private String contactDetails;
-
     @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
     private List<AlbumEntity> albums;
 
-
-    //    GETTERS & SETTERS
     public String getName() {
         return name;
     }

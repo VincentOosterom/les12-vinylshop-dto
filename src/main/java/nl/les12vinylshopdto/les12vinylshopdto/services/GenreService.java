@@ -3,68 +3,81 @@ package nl.les12vinylshopdto.les12vinylshopdto.services;
 import jakarta.validation.Valid;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreResponseDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.entities.AlbumEntity;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.GenreEntity;
+import nl.les12vinylshopdto.les12vinylshopdto.exceptions.RecordNotFoundException;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.GenreDTOMapper;
+import nl.les12vinylshopdto.les12vinylshopdto.repositories.AlbumRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GenreService {
 
     private final GenreRepository genreRepository;
+    private final AlbumRepository albumRepository;
     private final GenreDTOMapper genreDTOMapper;
 
-    public GenreService(GenreRepository genreRepository,
-                        GenreDTOMapper genreDTOMapper) {
+
+    public GenreService(GenreRepository genreRepository, AlbumRepository albumRepository, GenreDTOMapper genreDTOMapper) {
         this.genreRepository = genreRepository;
+        this.albumRepository = albumRepository;
         this.genreDTOMapper = genreDTOMapper;
     }
 
-    // ✅ FIND ALL
+
+
     public List<GenreResponseDTO> findAllGenres() {
         return genreDTOMapper.mapToDto(genreRepository.findAll());
     }
 
-    // ✅ FIND BY ID
-    public GenreResponseDTO findGenreById(Long id) {
-        GenreEntity genre = genreRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Genre not found"));
-
-        return genreDTOMapper.mapToDto(genre);
-    }
-
-    // ✅ CREATE
-    public GenreResponseDTO createGenre(@Valid GenreRequestDTO input) {
-
-        GenreEntity genreEntity = genreDTOMapper.mapToEntity(input);
-
-        genreEntity = genreRepository.save(genreEntity);
-
+    public GenreResponseDTO findGenreById(Long id)  {
+        nl.les12vinylshopdto.les12vinylshopdto.entities.GenreEntity genreEntity = getGenreEntity(id);
         return genreDTOMapper.mapToDto(genreEntity);
     }
 
-    // ✅ UPDATE
-    public GenreResponseDTO updateGenre(Long id, @Valid GenreRequestDTO input) {
-
-        GenreEntity existingGenre = genreRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Genre not found"));
-
-        existingGenre.setName(input.name());
-        existingGenre.setDescription(input.description());
-
-        GenreEntity saved = genreRepository.save(existingGenre);
-
-        return genreDTOMapper.mapToDto(saved);
+    public GenreResponseDTO createGenre(GenreRequestDTO genreDTO) {
+        GenreEntity genreEntity = genreDTOMapper.mapToEntity(genreDTO);
+        genreEntity = genreRepository.save(genreEntity);
+        return genreDTOMapper.mapToDto(genreEntity);
     }
 
-    // ✅ DELETE
+    public GenreResponseDTO updateGenre(Long id, GenreRequestDTO requestDto)  {
+        GenreEntity existingGenreEntity = getGenreEntity(id);
+
+        existingGenreEntity.setName(requestDto.getName());
+        existingGenreEntity.setDescription(requestDto.getDescription());
+
+        existingGenreEntity = genreRepository.save(existingGenreEntity);
+        return genreDTOMapper.mapToDto(existingGenreEntity);
+    }
+
+    private GenreEntity getGenreEntity(Long id) {
+        GenreEntity existingGenreEntity = genreRepository.findById(id)
+                .orElseThrow(() -> new RecordNotFoundException("Genre " + id +" not found"));
+        return existingGenreEntity;
+    }
+
     public void deleteGenre(Long id) {
+        for(AlbumEntity album : albumRepository.findByGenre_Id(id)){
+            album.setGenre(null);
+            albumRepository.save(album);
+        }
+        genreRepository.deleteById(id);
+    }
 
-        GenreEntity existingGenre = genreRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Genre not found"));
+    //    Deze methode wordt niet gebruikt, maar dienst als alternatief voorbeeld voor de "getGenreEntity"-methode
+    private GenreEntity getGenreById(Long id){
+        Optional<GenreEntity> genreEntityOptional = genreRepository.findById(id);
 
-        genreRepository.delete(existingGenre);
+//        Een if-statement waar je expliciet de Optional.isPresent() of Optional.isEmpty() checkt, is één variant om met de optional om te gaan.
+        if(genreEntityOptional.isPresent()){
+            return genreEntityOptional.get();
+        } else {
+            throw new RecordNotFoundException("Genre " + id +" not found");
+        }
     }
 }

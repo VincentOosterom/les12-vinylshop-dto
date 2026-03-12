@@ -5,14 +5,13 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "stock")
+@Table(name = "stock") //"stock" is meervoud
 public class StockEntity extends BaseEntity {
-
     private String condition;
-    private BigDecimal price;
+    private double price;
 
-   @ManyToOne(fetch = FetchType.LAZY)
-   @JoinColumn(name = "album_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "album_id")
     private AlbumEntity album;
 
     public String getCondition() {
@@ -23,11 +22,11 @@ public class StockEntity extends BaseEntity {
         this.condition = condition;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 

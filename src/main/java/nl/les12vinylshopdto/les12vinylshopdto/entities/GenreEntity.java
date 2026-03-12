@@ -7,13 +7,10 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "genres")
 public class GenreEntity extends BaseEntity {
-
     @Column(nullable = false)
     private String name;
     private String description;
 
-
-    //    GETTERS & SETTERS
     public String getName() {
         return name;
     }

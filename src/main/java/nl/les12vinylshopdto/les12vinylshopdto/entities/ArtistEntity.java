@@ -11,10 +11,8 @@ import java.util.Set;
 @Entity
 @Table(name = "artists")
 public class ArtistEntity extends BaseEntity {
-
     private String name;
     private String biography;
-
     @ManyToMany(mappedBy = "artists")
     private Set<AlbumEntity> albums = new HashSet<>();
 
@@ -41,7 +39,6 @@ public class ArtistEntity extends BaseEntity {
     public void setName(String name) {
         this.name = name;
     }
-
 }
 
 

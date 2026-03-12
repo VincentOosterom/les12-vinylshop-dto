@@ -6,13 +6,25 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
-public record StockRequestDTO(
-
+public class StockRequestDTO {
+        private String condition;
         @NotNull
-        String condition,
-
         @Positive
-        BigDecimal price
+        private double price;
 
-) {}
+        public String getCondition() {
+                return condition;
+        }
 
+        public void setCondition(String condition) {
+                this.condition = condition;
+        }
+
+        public double getPrice() {
+                return price;
+        }
+
+        public void setPrice(double price) {
+                this.price = price;
+        }
+}

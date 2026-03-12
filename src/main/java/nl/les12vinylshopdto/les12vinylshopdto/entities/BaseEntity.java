@@ -6,28 +6,30 @@ import java.time.LocalDateTime;
 
 // Base entity | Andere Klassen extends hiervan.
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "created_date", updatable = false)
     private LocalDateTime createDate;
 
-    @Column(name = "edit_date")
+    @Column(name = "edited_date")
     private LocalDateTime editDate;
 
     @PrePersist
     protected void onCreate() {
-        this.createDate = LocalDateTime.now();
+        createDate = LocalDateTime.now();
+        editDate = createDate;
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.editDate = LocalDateTime.now();
+        editDate = LocalDateTime.now();
     }
 
+    // Getters en Setters
     public Long getId() {
         return id;
     }

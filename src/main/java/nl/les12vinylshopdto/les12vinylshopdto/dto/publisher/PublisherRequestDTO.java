@@ -3,15 +3,34 @@ package nl.les12vinylshopdto.les12vinylshopdto.dto.publisher;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record PublisherRequestDTO(
+public class PublisherRequestDTO {
+        @NotBlank(message = "Naam mag niet leeg zijn")
+        @Size(max = 50, message = "Naam moet tussen 2 en 100 karakters lang zijn")
+        private String name;
+        private String address;
+        private String contactDetails;
 
-        @NotBlank
-        @Size(min = 2, max = 100)
-        String name,
+        public String getName() {
+                return name;
+        }
 
-        @Size(max = 255)
-        String address,
+        public void setName(String name) {
+                this.name = name;
+        }
 
-        @Size(max = 255)
-        String contactDetails
-) {}
+        public String getAddress() {
+                return address;
+        }
+
+        public void setAddress(String address) {
+                this.address = address;
+        }
+
+        public String getContactDetails() {
+                return contactDetails;
+        }
+
+        public void setContactDetails(String contactDetails) {
+                this.contactDetails = contactDetails;
+        }
+}

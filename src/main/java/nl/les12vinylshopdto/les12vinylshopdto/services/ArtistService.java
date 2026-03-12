@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.artist.ArtistRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.artist.ArtistResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.ArtistEntity;
-import nl.les12vinylshopdto.les12vinylshopdto.exceptions.ResourceNotFoundException;
+import nl.les12vinylshopdto.les12vinylshopdto.exceptions.RecordNotFoundException;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.ArtistDTOMapper;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.ArtistRepository;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class ArtistService {
 
     private ArtistEntity getArtistEntity(Long id) {
         ArtistEntity artistEntity = artistRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Artist " + id + " not found"));
+                .orElseThrow(() -> new RecordNotFoundException("Artist " + id + " not found"));
         return artistEntity;
     }
 
@@ -51,8 +51,8 @@ public class ArtistService {
     public ArtistResponseDTO updateArtist(Long id, ArtistRequestDTO artistModel) {
         ArtistEntity existingArtistEntity = getArtistEntity(id);
 
-        existingArtistEntity.setName(artistModel.name());
-        existingArtistEntity.setBiography(artistModel.biography());
+        existingArtistEntity.setName(artistModel.getName());
+        existingArtistEntity.setBiography(artistModel.getBiography());
 
         existingArtistEntity = artistRepository.save(existingArtistEntity);
         return artistDTOMapper.mapToDto(existingArtistEntity);

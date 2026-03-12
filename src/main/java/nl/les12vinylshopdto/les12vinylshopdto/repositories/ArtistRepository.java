@@ -7,5 +7,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ArtistRepository extends JpaRepository<ArtistEntity, Long> {
+
     List<ArtistEntity> findArtistsByAlbumsId(@Param("albumId") Long albumId);
+
+
 }

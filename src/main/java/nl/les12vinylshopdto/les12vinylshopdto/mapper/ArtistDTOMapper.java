@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ArtistDTOMapper implements DTOMapper <ArtistResponseDTO, ArtistRequestDTO, ArtistEntity>  {
+public class ArtistDTOMapper implements DTOMapper<ArtistResponseDTO, ArtistRequestDTO, ArtistEntity>{
 
     @Override
-    public ArtistResponseDTO mapToDto(ArtistEntity entity) {
-        return new ArtistResponseDTO(
-                entity.getId(),
-                entity.getName(),
-                entity.getBiography()
-        );
+    public ArtistResponseDTO mapToDto(ArtistEntity model) {
+        var result = new ArtistResponseDTO();
+        result.setId(model.getId());
+        result.setName(model.getName());
+        result.setBiography(model.getBiography());
+        return result;
     }
 
     @Override
@@ -26,13 +26,10 @@ public class ArtistDTOMapper implements DTOMapper <ArtistResponseDTO, ArtistRequ
     }
 
     @Override
-    public ArtistEntity mapToEntity(ArtistRequestDTO dto) {
-        ArtistEntity artist = new ArtistEntity();
-        artist.setName(dto.name());
-        artist.setBiography(dto.biography());
-        return artist;
+    public ArtistEntity mapToEntity(ArtistRequestDTO requestDTO) {
+        var model = new ArtistEntity();
+        model.setName(requestDTO.getName());
+        model.setBiography(requestDTO.getBiography());
+        return model;
     }
-
-
-
 }
