@@ -1,5 +1,6 @@
 package nl.les12vinylshopdto.les12vinylshopdto.services;
 
+import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumExtendedResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.AlbumEntity;
@@ -20,9 +21,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
@@ -64,10 +67,10 @@ class AlbumServiceTest {
         albumEntity.setStockItems(List.of());
 
         albumResponseDTO = new AlbumResponseDTO();
-        albumResponseDTO.setTitle("Dark in the Middle");
+        albumResponseDTO.setTitle("Darkk in the Middle");
 
         albumRequestDTO = new AlbumRequestDTO();
-        albumResponseDTO.setReleaseYear(2020);
+        albumRequestDTO.setReleaseYear(2020);
         albumRequestDTO.setTitle("Dark in the Middle");
         albumRequestDTO.setGenreId(1L);
         albumRequestDTO.setPublisherId(1L);
@@ -76,7 +79,6 @@ class AlbumServiceTest {
 
     @Test
     void findAllAlbums() {
-
         List<AlbumEntity> albumEntities = List.of(albumEntity);
         List<AlbumResponseDTO> dtos = List.of(albumResponseDTO);
 
@@ -91,6 +93,18 @@ class AlbumServiceTest {
 
     @Test
     void findAlbumById() {
+        AlbumExtendedResponseDTO extendedDTO = new AlbumExtendedResponseDTO();
+
+        extendedDTO.setId(1L);
+        extendedDTO.setTitle("Dark in the Middle");
+
+        when(albumRepository.findById(1L)).thenReturn(Optional.of(albumEntity));
+        when(albumExtendedDTOMapper.mapToDto(albumEntity)).thenReturn(extendedDTO);
+
+        AlbumExtendedResponseDTO result = albumService.findAlbumById(1L);
+
+        assertThat(result.getId()).isEqualTo(1L);
+
     }
 
     @Test
