@@ -1,13 +1,15 @@
 package nl.les12vinylshopdto.les12vinylshopdto.mapper;
 
+import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.entities.AlbumEntity;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.BaseEntity;
 
 import java.util.List;
 
-public interface DTOMapper<RESPONSE, REQUEST , T extends BaseEntity> {
-    RESPONSE mapToDto(T model);
+public interface DTOMapper<RESPONSE, REQUEST , ENTITY extends BaseEntity> {
+    RESPONSE mapToDto(ENTITY model);
 
-    List<RESPONSE> mapToDto(List<T> models);
+    List<RESPONSE> mapToDto(List<ENTITY> models);
 
-    T mapToEntity(REQUEST genreModel);
+    ENTITY mapToEntity(REQUEST genreModel);
 }

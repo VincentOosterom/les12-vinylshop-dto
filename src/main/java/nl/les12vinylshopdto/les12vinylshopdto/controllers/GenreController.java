@@ -1,9 +1,11 @@
 package nl.les12vinylshopdto.les12vinylshopdto.controllers;
 
 import jakarta.validation.Valid;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.GenreRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.GenreResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreResponseDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.helpers.UrlHelper;
 import nl.les12vinylshopdto.les12vinylshopdto.services.GenreService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,55 +17,42 @@ import java.util.List;
 public class GenreController {
 
     private final GenreService genreService;
+    private final UrlHelper urlHelper;
 
-    public GenreController(GenreService genreService) {
+
+    public GenreController(GenreService genreService, UrlHelper urlHelper) {
         this.genreService = genreService;
+        this.urlHelper = urlHelper;
+
     }
 
-    // GET one
-    @GetMapping("/{id}")
-    public ResponseEntity<GenreResponseDto> getGenreById(@PathVariable Long id) {
-        GenreResponseDto genre = genreService.findGenreById(id);
-        if (genre == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(genre);
-    }
-
-    // GET all
     @GetMapping
-    public ResponseEntity<List<GenreResponseDto>> getAllGenres() {
-        return ResponseEntity.ok(genreService.findAllGenres());
+    public ResponseEntity<List<GenreResponseDTO>> getAllGenres() {
+        List<GenreResponseDTO> genres = genreService.findAllGenres();
+        return new ResponseEntity<>(genres, HttpStatus.OK);
     }
 
-    //  POST
+    @GetMapping("/{id}")
+    public ResponseEntity<GenreResponseDTO> getGenreById(@PathVariable Long id) {
+        GenreResponseDTO genre = genreService.findGenreById(id);
+        return new ResponseEntity<>(genre, HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<GenreResponseDto> createGenre(
-            @Valid @RequestBody GenreRequestDto genre) {
-
-        GenreResponseDto created = genreService.createGenre(genre);
-
-        URI location = URI.create("/genres/" + created.getId());
-
-        return ResponseEntity
-                .created(location)
-                .body(created);
+    public ResponseEntity<GenreResponseDTO> createGenre(@RequestBody @Valid GenreRequestDTO genreModel) {
+        GenreResponseDTO newGenre = genreService.createGenre(genreModel);
+        return ResponseEntity.created(urlHelper.getCurrentUrlWithId(newGenre.getId())).body(newGenre);
     }
 
-    // PUT
     @PutMapping("/{id}")
-    public ResponseEntity<GenreResponseDto> updateGenre(
-            @PathVariable Long id,
-            @Valid @RequestBody GenreRequestDto genre) {
-
-        GenreResponseDto updated = genreService.updateGenre(id, genre);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<GenreResponseDTO> updateGenre(@PathVariable Long id, @RequestBody @Valid GenreRequestDTO genreModel) {
+        GenreResponseDTO updatedGenre = genreService.updateGenre(id, genreModel);;
+        return new ResponseEntity<>(updatedGenre, HttpStatus.OK);
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteGenre(@PathVariable Long id) {
         genreService.deleteGenre(id);
-        return ResponseEntity.noContent().build();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

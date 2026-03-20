@@ -1,15 +1,17 @@
-package nl.les12vinylshopdto.les12vinylshopdto.entities;
+package nl.les12vinylshopdto.les12vinylshopdto.dto.genre;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "genres")
-public class GenreEntity extends BaseEntity {
-    @Column(nullable = false)
+public class GenreResponseDTO {
+    private Long id;
     private String name;
     private String description;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -26,4 +28,6 @@ public class GenreEntity extends BaseEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+
 }

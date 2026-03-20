@@ -1,19 +1,19 @@
-package nl.les12vinylshopdto.les12vinylshopdto.entities;
+package nl.les12vinylshopdto.les12vinylshopdto.dto.publisher;
 
-import jakarta.persistence.*;
+public class PublisherResponseDTO {
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Entity
-@Table(name = "publishers")
-public class PublisherEntity extends BaseEntity {
-    @Column(nullable = false)
+    private long id;
     private String name;
     private String address;
     private String contactDetails;
-    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
-    private List<AlbumEntity> albums;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -37,13 +37,5 @@ public class PublisherEntity extends BaseEntity {
 
     public void setContactDetails(String contactDetails) {
         this.contactDetails = contactDetails;
-    }
-
-    public List<AlbumEntity> getAlbums() {
-        return albums;
-    }
-
-    public void setAlbums(List<AlbumEntity> albums) {
-        this.albums = albums;
     }
 }

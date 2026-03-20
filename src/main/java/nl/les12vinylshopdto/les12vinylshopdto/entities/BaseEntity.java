@@ -6,28 +6,36 @@ import java.time.LocalDateTime;
 
 // Base entity | Andere Klassen extends hiervan.
 @MappedSuperclass
-public class BaseEntity {
+public abstract class BaseEntity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "created_date", updatable = false)
     private LocalDateTime createDate;
+
+    @Column(name = "edited_date")
     private LocalDateTime editDate;
 
-
-    //    GETTERS & SETTERS
-    public LocalDateTime getEditDate() {
-        return editDate;
+    @PrePersist
+    protected void onCreate() {
+        createDate = LocalDateTime.now();
+        editDate = createDate;
     }
 
-    public void setEditDate(LocalDateTime editDate) {
-        this.editDate = editDate;
+    @PreUpdate
+    protected void onUpdate() {
+        editDate = LocalDateTime.now();
     }
 
+    // Getters en Setters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalDateTime getCreateDate() {
@@ -38,14 +46,11 @@ public class BaseEntity {
         this.createDate = createDate;
     }
 
-
-    @PrePersist
-    protected void onCreate() {
-        this.createDate = LocalDateTime.now();
+    public LocalDateTime getEditDate() {
+        return editDate;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.editDate = LocalDateTime.now();
+    public void setEditDate(LocalDateTime editDate) {
+        this.editDate = editDate;
     }
 }

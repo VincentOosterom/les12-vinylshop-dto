@@ -1,39 +1,42 @@
 package nl.les12vinylshopdto.les12vinylshopdto.mapper;
 
-import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherRequestDto;
-import nl.les12vinylshopdto.les12vinylshopdto.dto.PublisherResponseDto;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherRequestDTO;
+import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.PublisherEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class PublisherDTOMapper implements DTOMapper<PublisherResponseDto, PublisherRequestDto, PublisherEntity> {
+public class PublisherDTOMapper implements DTOMapper<PublisherResponseDTO, PublisherRequestDTO, PublisherEntity>{
 
     @Override
-    public PublisherResponseDto mapToDto(PublisherEntity publisher) {
-        return new PublisherResponseDto(
-                publisher.getId(),
-                publisher.getName(),
-                publisher.getAddress(),
-                publisher.getContactDetails()
-        );
+    public PublisherResponseDTO mapToDto(PublisherEntity publisher) {
+        PublisherResponseDTO dto = new PublisherResponseDTO();
+        dto.setId(publisher.getId());
+        dto.setName(publisher.getName());
+        dto.setAddress(publisher.getAddress());
+        dto.setContactDetails(publisher.getContactDetails());
+        return dto;
     }
 
     @Override
-    public List<PublisherResponseDto> mapToDto(List<PublisherEntity> publishers) {
-        return publishers.stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    public List<PublisherResponseDTO> mapToDto(List<PublisherEntity> publishers) {
+        List<PublisherResponseDTO> result = new ArrayList<>();
+        for (PublisherEntity publisher : publishers) {
+            result.add(mapToDto(publisher));
+        }
+        return result;
     }
 
     @Override
-    public PublisherEntity mapToEntity(PublisherRequestDto dto) {
+    public PublisherEntity mapToEntity(PublisherRequestDTO dto) {
         PublisherEntity publisher = new PublisherEntity();
-        publisher.setName(dto.name());
-        publisher.setAddress(dto.address());
-        publisher.setContactDetails(dto.contactDetails());
+        publisher.setName(dto.getName());
+        publisher.setAddress(dto.getAddress());
+        publisher.setContactDetails(dto.getContactDetails());
         return publisher;
     }
 }
