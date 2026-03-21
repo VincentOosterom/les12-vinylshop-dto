@@ -3,9 +3,7 @@ package nl.les12vinylshopdto.les12vinylshopdto.services;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumExtendedResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
-import nl.les12vinylshopdto.les12vinylshopdto.entities.AlbumEntity;
-import nl.les12vinylshopdto.les12vinylshopdto.entities.GenreEntity;
-import nl.les12vinylshopdto.les12vinylshopdto.entities.PublisherEntity;
+import nl.les12vinylshopdto.les12vinylshopdto.entities.*;
 import nl.les12vinylshopdto.les12vinylshopdto.exceptions.RecordNotFoundException;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.AlbumDTOMapper;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.AlbumExtendedDTOMapper;
@@ -13,6 +11,7 @@ import nl.les12vinylshopdto.les12vinylshopdto.repositories.AlbumRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.ArtistRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.GenreRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.PublisherRepository;
+import org.hibernate.mapping.Set;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,8 +28,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class AlbumServiceTest {
@@ -142,7 +140,7 @@ class AlbumServiceTest {
     }
 
     @Test
-    void updateAlbum_NotExistingAlbum(){
+    void updateAlbum_NotExistingAlbum() {
         when(albumRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> albumService.updateAlbum(99L, albumRequestDTO))
@@ -151,18 +149,83 @@ class AlbumServiceTest {
     }
 
     @Test
-    void deleteAlbum() {
+    void deleteAlbum_geenVoorraad_verwijdertAlbum() {
+        when(albumRepository.findById(1L)).thenReturn(Optional.of(albumEntity));
+
+        albumService.deleteAlbum(1L);
+
+        verify(albumRepository).deleteById(1L);
+    }
+
+    @Test
+    void deleteAlbum_metVoorraad_verwijdertNiet() {
+        StockEntity stockItem = new StockEntity();
+        albumEntity.setStockItems(List.of(stockItem));
+
+        when(albumRepository.findById(1L)).thenReturn(Optional.of(albumEntity));
+
+        albumService.deleteAlbum(1L);
+
+        verify(albumRepository, never()).deleteById(1L);
+
     }
 
     @Test
     void linkArtist() {
+        ArtistEntity artist = new ArtistEntity();
+        artist.setAlbums(new HashSet<>());
+
+        when(albumRepository.findById(1L)).thenReturn(Optional.of(albumEntity));
+        when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
+
+        albumService.linkArtist(1L, 1L);
+
+        assertThat(albumEntity.getArtists()).contains(artist);
+        assertThat(artist.getAlbums()).contains(albumEntity);
     }
 
     @Test
     void unlinkArtist() {
+        ArtistEntity artist = new ArtistEntity();
+        artist.setAlbums(new HashSet<>());
+        artist.getAlbums().add(albumEntity);
+        albumEntity.getArtists().add(artist);
+
+        when(albumRepository.findById(1L)).thenReturn(Optional.of(albumEntity));
+        when(artistRepository.findById(1L)).thenReturn(Optional.of(artist));
+
+        albumService.unlinkArtist(1L, 1L);
+
+        assertThat(albumEntity.getArtists()).doesNotContain(artist);
+        assertThat(artist.getAlbums()).doesNotContain(albumEntity);
+
     }
 
     @Test
-    void getAlbumsWithStock() {
+    void getAlbumsWithStock_true() {
+        when(albumRepository.findByStockItemsNotEmpty()).thenReturn(List.of(albumEntity));
+        when(albumDTOMapper.mapToDto(anyList())).thenReturn(List.of(albumResponseDTO));
+
+        List<AlbumResponseDTO> result = albumService.getAlbumsWithStock(true);
+
+        assertThat(result).hasSize(1);
+        verify(albumRepository).findByStockItemsNotEmpty();
     }
+
+    @Test
+    void getAlbumsWithStock_false(){
+        when(albumRepository.findByStockItemsEmpty()).thenReturn(List.of(albumEntity));
+        when(albumDTOMapper.mapToDto(anyList())).thenReturn(List.of(albumResponseDTO));
+
+        List<AlbumResponseDTO> result = albumService.getAlbumsWithStock(false);
+
+        assertThat(result).hasSize(1);
+        verify(albumRepository).findByStockItemsEmpty();
+    }
+
+
+
 }
+
+
+

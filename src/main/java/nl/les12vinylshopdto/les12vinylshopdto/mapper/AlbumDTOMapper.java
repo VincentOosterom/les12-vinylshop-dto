@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Component
 @Primary
-public abstract class AlbumDTOMapper implements DTOMapper<AlbumResponseDTO, AlbumRequestDTO, AlbumEntity> {
+public class AlbumDTOMapper implements DTOMapper<AlbumResponseDTO, AlbumRequestDTO, AlbumEntity> {
 
     private final PublisherDTOMapper publisherDtoMapper;
     private final GenreDTOMapper genreDTOMapper;
@@ -31,10 +31,10 @@ public abstract class AlbumDTOMapper implements DTOMapper<AlbumResponseDTO, Albu
         target.setId(model.getId());
         target.setTitle(model.getTitle());
         target.setReleaseYear(model.getReleaseYear());
-        if(model.getGenre() != null){
+        if (model.getGenre() != null) {
             target.setGenre(genreDTOMapper.mapToDto(model.getGenre()));
         }
-        if(model.getPublisher() != null) {
+        if (model.getPublisher() != null) {
             target.setPublisher(publisherDtoMapper.mapToDto(model.getPublisher()));
         }
 
@@ -52,9 +52,6 @@ public abstract class AlbumDTOMapper implements DTOMapper<AlbumResponseDTO, Albu
         var model = new AlbumEntity();
         model.setTitle(requestDTO.getTitle());
         model.setReleaseYear(requestDTO.getReleaseYear());
-//        Deze twee voeg je in de service toe:
-//        model.setGenre(new GenreModel());
-//        model.setPublisher(new PublisherModel());
         return model;
     }
 }
