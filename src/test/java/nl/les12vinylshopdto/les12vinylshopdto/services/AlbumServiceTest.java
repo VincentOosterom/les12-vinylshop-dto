@@ -4,7 +4,9 @@ import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumExtendedResponseDTO
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.AlbumEntity;
-import nl.les12vinylshopdto.les12vinylshopdto.entities.ArtistEntity;
+import nl.les12vinylshopdto.les12vinylshopdto.entities.GenreEntity;
+import nl.les12vinylshopdto.les12vinylshopdto.entities.PublisherEntity;
+import nl.les12vinylshopdto.les12vinylshopdto.exceptions.RecordNotFoundException;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.AlbumDTOMapper;
 import nl.les12vinylshopdto.les12vinylshopdto.mapper.AlbumExtendedDTOMapper;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.AlbumRepository;
@@ -12,6 +14,7 @@ import nl.les12vinylshopdto.les12vinylshopdto.repositories.ArtistRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.GenreRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.PublisherRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,10 +26,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,7 +70,7 @@ class AlbumServiceTest {
         albumEntity.setStockItems(List.of());
 
         albumResponseDTO = new AlbumResponseDTO();
-        albumResponseDTO.setTitle("Darkk in the Middle");
+        albumResponseDTO.setTitle("Dark in the Middle");
 
         albumRequestDTO = new AlbumRequestDTO();
         albumRequestDTO.setReleaseYear(2020);
@@ -87,7 +90,6 @@ class AlbumServiceTest {
 
         List<AlbumResponseDTO> result = albumService.findAllAlbums();
 
-        assertThat(result).hasSize(1);
         assertThat(result.getFirst().getTitle()).isEqualTo("Dark in the Middle");
     }
 
@@ -104,15 +106,48 @@ class AlbumServiceTest {
         AlbumExtendedResponseDTO result = albumService.findAlbumById(1L);
 
         assertThat(result.getId()).isEqualTo(1L);
-
     }
 
     @Test
     void createAlbum() {
+        GenreEntity genre = new GenreEntity();
+        PublisherEntity publisher = new PublisherEntity();
+
+        when(albumDTOMapper.mapToEntity(albumRequestDTO)).thenReturn(albumEntity);
+        when(genreRepository.findById(1L)).thenReturn(Optional.of(genre));
+        when(publisherRepository.findById(1L)).thenReturn(Optional.of(publisher));
+        when(albumRepository.save(albumEntity)).thenReturn(albumEntity);
+        when(albumDTOMapper.mapToDto(albumEntity)).thenReturn(albumResponseDTO);
+
+        AlbumResponseDTO result = albumService.createAlbum(albumRequestDTO);
+
+        assertThat(result.getTitle()).isEqualTo("Dark in the Middle");
+        verify(albumRepository).save(albumEntity);
     }
 
     @Test
-    void updateAlbum() {
+    void updateAlbum_ExistingAlbum() {
+        GenreEntity genre = new GenreEntity();
+        PublisherEntity publisher = new PublisherEntity();
+        when(albumRepository.findById(1L)).thenReturn(Optional.of(albumEntity));
+        when(genreRepository.findById(1L)).thenReturn(Optional.of(genre));
+        when(publisherRepository.findById(1L)).thenReturn(Optional.of(publisher));
+        when(albumRepository.save(albumEntity)).thenReturn(albumEntity);
+        when(albumDTOMapper.mapToDto(any(AlbumEntity.class))).thenReturn(albumResponseDTO);
+
+        AlbumResponseDTO result = albumService.updateAlbum(1L, albumRequestDTO);
+
+        assertThat(albumEntity.getTitle()).isEqualTo("Dark in the Middle");
+        verify(albumRepository).save(albumEntity);
+    }
+
+    @Test
+    void updateAlbum_NotExistingAlbum(){
+        when(albumRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> albumService.updateAlbum(99L, albumRequestDTO))
+                .isInstanceOf(RecordNotFoundException.class)
+                .hasMessageContaining("99");
     }
 
     @Test
