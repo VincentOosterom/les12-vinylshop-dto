@@ -1,18 +1,16 @@
 package nl.les12vinylshopdto.les12vinylshopdto.controllers;
 
-import jakarta.validation.Valid;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumExtendedResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.artist.ArtistResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.helpers.UrlHelper;
-import nl.les12vinylshopdto.les12vinylshopdto.services.AlbumService;
-import nl.les12vinylshopdto.les12vinylshopdto.services.ArtistService;
+import services.AlbumService;
+import services.ArtistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController

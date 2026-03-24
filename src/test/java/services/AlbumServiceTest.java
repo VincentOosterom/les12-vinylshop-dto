@@ -1,6 +1,5 @@
-package nl.les12vinylshopdto.les12vinylshopdto.services;
+package services;
 
-import jakarta.inject.Inject;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumExtendedResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
@@ -12,10 +11,8 @@ import nl.les12vinylshopdto.les12vinylshopdto.repositories.AlbumRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.ArtistRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.GenreRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.PublisherRepository;
-import org.hibernate.mapping.Set;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
@@ -28,7 +25,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)

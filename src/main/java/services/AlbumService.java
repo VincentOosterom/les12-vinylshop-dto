@@ -1,4 +1,4 @@
-package nl.les12vinylshopdto.les12vinylshopdto.services;
+package services;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;

@@ -4,12 +4,11 @@ import jakarta.validation.Valid;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.helpers.UrlHelper;
-import nl.les12vinylshopdto.les12vinylshopdto.services.PublisherService;
+import services.PublisherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
