@@ -1,5 +1,6 @@
 package nl.les12vinylshopdto.les12vinylshopdto.services;
 
+import jakarta.inject.Inject;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumExtendedResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
@@ -53,10 +54,7 @@ class AlbumServiceTest {
     @Mock
     private GenreRepository genreRepository;
 
-    @InjectMocks
     private AlbumService albumService;
-
-
 
     private AlbumEntity albumEntity;
     private AlbumResponseDTO albumResponseDTO;
@@ -64,12 +62,20 @@ class AlbumServiceTest {
 
     @BeforeEach
     void setUp() {
+        albumService = new AlbumService(albumRepository,
+                artistRepository,
+                albumDTOMapper,
+                albumExtendedDTOMapper,
+                publisherRepository,
+                genreRepository
+        );
+
         albumEntity = new AlbumEntity();
         albumEntity.setId(1L);
         albumEntity.setTitle("Dark in the Middle");
         albumEntity.setReleaseYear(2020);
         albumEntity.setArtists(new HashSet<>());
-        albumEntity.setStockItems(new ArrayList<>()); // ← ArrayList niet List.of()
+        albumEntity.setStockItems(new ArrayList<>());
 
         albumResponseDTO = new AlbumResponseDTO();
         albumResponseDTO.setTitle("Dark in the Middle");
@@ -117,10 +123,10 @@ class AlbumServiceTest {
         GenreEntity genre = new GenreEntity();
         PublisherEntity publisher = new PublisherEntity();
 
-        when(albumDTOMapper.mapToEntity(any())).thenReturn(albumEntity);  // ← any() zonder type
+        when(albumDTOMapper.mapToEntity(any())).thenReturn(albumEntity);
         when(genreRepository.findById(1L)).thenReturn(Optional.of(genre));
         when(publisherRepository.findById(1L)).thenReturn(Optional.of(publisher));
-        when(albumRepository.save(any())).thenReturn(albumEntity);         // ← any() zonder type
+        when(albumRepository.save(any())).thenReturn(albumEntity);
         when(albumDTOMapper.mapToDto(any(AlbumEntity.class))).thenReturn(albumResponseDTO);
 
         AlbumResponseDTO result = albumService.createAlbum(albumRequestDTO);
@@ -228,8 +234,6 @@ class AlbumServiceTest {
         assertThat(result).hasSize(1);
         verify(albumRepository).findByStockItemsEmpty();
     }
-
-
 }
 
 
