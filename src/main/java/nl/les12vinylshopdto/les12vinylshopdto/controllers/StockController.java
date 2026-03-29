@@ -1,5 +1,6 @@
 package nl.les12vinylshopdto.les12vinylshopdto.controllers;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.stock.StockRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.stock.StockResponseDTO;
