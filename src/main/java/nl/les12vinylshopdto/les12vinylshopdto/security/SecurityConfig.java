@@ -47,7 +47,6 @@ public class SecurityConfig {
 
                         .requestMatchers(HttpMethod.GET, "/albums/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
 
