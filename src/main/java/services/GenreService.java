@@ -1,4 +1,4 @@
-package nl.les12vinylshopdto.les12vinylshopdto.services;
+package services;
 
 import jakarta.validation.Valid;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.genre.GenreRequestDTO;

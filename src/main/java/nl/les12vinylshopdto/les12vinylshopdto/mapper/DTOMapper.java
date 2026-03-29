@@ -1,7 +1,5 @@
 package nl.les12vinylshopdto.les12vinylshopdto.mapper;
 
-import nl.les12vinylshopdto.les12vinylshopdto.dto.album.AlbumResponseDTO;
-import nl.les12vinylshopdto.les12vinylshopdto.entities.AlbumEntity;
 import nl.les12vinylshopdto.les12vinylshopdto.entities.BaseEntity;
 
 import java.util.List;
