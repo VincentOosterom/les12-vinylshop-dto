@@ -1,4 +1,4 @@
-package services;
+package nl.les12vinylshopdto.les12vinylshopdto.services;
 
 import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.publisher.PublisherResponseDTO;

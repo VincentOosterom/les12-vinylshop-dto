@@ -11,6 +11,7 @@ import nl.les12vinylshopdto.les12vinylshopdto.repositories.AlbumRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.ArtistRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.GenreRepository;
 import nl.les12vinylshopdto.les12vinylshopdto.repositories.PublisherRepository;
+import nl.les12vinylshopdto.les12vinylshopdto.services.AlbumService;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

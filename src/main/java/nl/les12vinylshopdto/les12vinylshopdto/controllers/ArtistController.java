@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.artist.ArtistRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.artist.ArtistResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.helpers.UrlHelper;
-import services.ArtistService;
+import nl.les12vinylshopdto.les12vinylshopdto.services.ArtistService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
