@@ -1,10 +1,11 @@
 package nl.les12vinylshopdto.les12vinylshopdto.controllers;
 
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.stock.StockRequestDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.dto.stock.StockResponseDTO;
 import nl.les12vinylshopdto.les12vinylshopdto.helpers.UrlHelper;
-import services.StockService;
+import nl.les12vinylshopdto.les12vinylshopdto.services.StockService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

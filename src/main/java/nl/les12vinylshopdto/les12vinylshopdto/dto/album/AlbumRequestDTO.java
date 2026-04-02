@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import java.util.Set;
 
 public class AlbumRequestDTO {
+
         @NotBlank(message = "Naam mag niet leeg zijn")
         @Size(min = 3, max = 100, message = "Naam moet tussen 3 en 100 karakters lang zijn")
         private String title;
