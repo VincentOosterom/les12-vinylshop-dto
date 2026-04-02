@@ -45,12 +45,16 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/albums/{albumId}/stock/**").hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.GET, "/albums/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/albums").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/albums/{id}").permitAll()
 
+                        .requestMatchers(HttpMethod.GET, "/**").authenticated()
+
+                        .requestMatchers(HttpMethod.POST, "/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/**").hasRole("ADMIN")
 
-                        .anyRequest().authenticated()
+                        .anyRequest().denyAll()
                 )
                 .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .build();
